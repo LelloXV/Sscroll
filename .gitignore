@@ -1,0 +1,23 @@
+# --- SICUREZZA ---
+firebase-key.json
+
+# --- BACKEND (Java/Gradle) ---
+.gradle/
+build/
+out/
+bin/
+target/
+*.class
+*.jar
+
+# --- FRONTEND (Node/Vite) ---
+scroll-frontend/node_modules/
+scroll-frontend/dist/
+scroll-frontend/dist-ssr/
+scroll-frontend/.local
+
+# --- IDE & SISTEMA ---
+.idea/
+.vscode/
+.DS_Store
+*.iml

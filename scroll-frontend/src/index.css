@@ -1,0 +1,22 @@
+@import "tailwindcss";
+/* Aggiungi questo in cima al tuo file CSS se non lo hai già */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@700&display=swap');
+
+@theme {
+  /* I nuovi colori "SCROLL PRO" */
+  --color-midnight: #020412;        /* Sfondo profondissimo */
+  --color-night-light: #0a0f2c;     /* Variante per card/sezioni */
+  --color-crimson: #700B1A;         /* Rosso scuro accento */
+  --color-neon-red: #FF3355;        /* Rosso vibrante per dettagli */
+
+  /* Font: Serif per titoli, Mono per countdown */
+  --font-serif: "Instrument Serif", serif; /* O un serif di sistema molto bold */
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-midnight text-slate-200 antialiased;
+    margin: 0;
+  }
+}
