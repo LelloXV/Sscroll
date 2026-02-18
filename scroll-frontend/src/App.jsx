@@ -3,12 +3,15 @@ import Navbar from './components/Navbar';
 import AdminUpload from './components/AdminUpload';
 import PdfReader from './components/PdfReader';
 import Countdown from "./components/Countdown.jsx";
+import AdminLogin from "./components/AdminLogin.jsx";
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 function App() {
     const [editions, setEditions] = useState([]);
     const [currentPdf, setCurrentPdf] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const LAUNCH_DATE = "2026-03-17T00:00:00";
 
@@ -36,6 +39,8 @@ function App() {
         return new Date(lastUpload.getTime() + 7 * 24 * 60 * 60 * 1000);
     };
 
+
+
     if (loading) return <div className="bg-midnight min-h-screen"></div>;
 
     // CASO 1: PRE-LANCIO (Nessun PDF ancora caricato)
@@ -46,7 +51,7 @@ function App() {
                     SCROLL<span className="text-neon-red">.</span>
                 </h1>
                 <div className="border-t-4 border-b-4 border-white py-10 w-full max-w-4xl">
-                    <p className="justify-center mb-6 justify-center text-xl uppercase italic flex text-neon-red animate-pulse">Il countdown per il futuro è iniziato</p>
+                    <p className="justify-center mb-6 justify-center text-xl uppercase italic flex font-mono text-neon-red animate-pulse">Il countdown per il futuro è iniziato</p>
                     <Countdown targetDate={LAUNCH_DATE} isPreLaunch={true} />
                 </div>
                 <p className="mt-4 font-mono text-sm text-slate-500 tracking-[0.3em] uppercase">
@@ -55,7 +60,7 @@ function App() {
                 <button onClick={() => setIsModalOpen(true)} className="mt-20 opacity-20 hover:opacity-100 transition-opacity uppercase text-xs font-bold underline">Admin Access</button>
                 {isModalOpen && (
                     <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/95">
-                        <AdminUpload />
+                        <AdminLogin />
                         <button onClick={() => setIsModalOpen(false)} className="absolute top-10 right-10 text-white font-bold">X</button>
                     </div>
                 )}
@@ -65,7 +70,7 @@ function App() {
 
     // CASO 2: SITO LIVE
     return (
-        <div className="min-h-screen bg-midnight text-white">
+        <div className="min-h-screen bg-midnight text-white font-mono">
             <Navbar onUploadClick={() => setIsModalOpen(true)} />
 
             {/* SEZIONE COUNTDOWN (1/4 di pagina o meno) */}
@@ -78,7 +83,7 @@ function App() {
                 {/* TITOLO SITO */}
                 <div className="text-center py-10 border-b-4 border-white">
                     <h1 className="text-6xl md:text-8xl font-black uppercase italic tracking-tighter">
-                        La voce dei <span className="text-neon-lime">giovani.</span>
+                        La voce dei giovani<span className="text-neon-red">.</span>
                     </h1>
                 </div>
 
@@ -91,7 +96,7 @@ function App() {
 
                 {/* ARCHIVIO */}
                 <section id="archivio" className="p-8 max-w-7xl mx-auto mt-20">
-                    <h2 className="text-5xl font-black uppercase mb-10 italic border-l-8 border-neon-lime pl-4">Archivio</h2>
+                    <h2 className="text-5xl font-black uppercase mb-10 italic border-l-8 pl-4">Archivio</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {editions.slice(1).map((ed) => (
                             <div
@@ -107,12 +112,25 @@ function App() {
                 </section>
             </main>
 
-            {/* MODAL UPLOAD */}
             {isModalOpen && (
-                <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-black/95 backdrop-blur-md">
-                    <div className="w-full max-w-xl">
-                        <button onClick={() => setIsModalOpen(false)} className="text-white mb-2 uppercase font-bold underline">Annulla</button>
-                        <AdminUpload />
+                <div
+                    className="fixed inset-0 z-[150] flex items-center justify-center bg-black/15 backdrop-blur-md cursor-pointer"
+                    onClick={() => setIsModalOpen(false)}
+                >
+                    <div
+                        className="w-full max-w-xl relative md:p-8 cursor-default "
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={() => setIsModalOpen(false)}
+                            className="absolute top-4 right-4 text-slate-400 hover:text-neon-red hover:bg-white/5 p-2 rounded-full transition"
+                            aria-label="Chiudi"
+                        >
+                            <span className="text-3xl leading-none block h-8 w-8 text-center">&times;</span> {/* Sarebbe la X */}
+                        </button>
+                        <div className="mt-6">
+                            <AdminUpload />
+                        </div>
                     </div>
                 </div>
             )}

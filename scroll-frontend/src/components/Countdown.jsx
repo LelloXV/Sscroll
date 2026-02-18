@@ -29,7 +29,7 @@ export default function Countdown({ targetDate, isPreLaunch }) {
         if (!timeLeft[interval] && interval !== 'secondi') return null;
         return (
             <div key={interval} className="flex flex-col items-center mx-2 md:mx-4">
-        <span className={`font-black ${isPreLaunch ? 'text-5xl md:text-8xl' : 'text-3xl md:text-5xl'}`}>
+        <span className={`font-black font-mono ${isPreLaunch ? 'text-5xl md:text-8xl' : 'text-3xl md:text-5xl'}`}>
           {timeLeft[interval] < 10 ? `0${timeLeft[interval]}` : timeLeft[interval]}
         </span>
                 <span className="text-xs uppercase font-bold tracking-widest">{interval}</span>
