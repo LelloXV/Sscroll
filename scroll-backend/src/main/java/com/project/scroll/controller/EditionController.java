@@ -4,7 +4,6 @@ import com.project.scroll.model.Edition;
 import com.project.scroll.repository.EditionRepository;
 import com.project.scroll.service.FileStorageService;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,11 +15,11 @@ import java.time.Instant;
 public class EditionController {
 
     private final EditionRepository editionRepository;
-    private final FileStorageService fileStorageService;
+    //private final FileStorageService fileStorageService;
 
     public EditionController(EditionRepository editionRepository, FileStorageService fileStorageService) {
         this.editionRepository = editionRepository;
-        this.fileStorageService = fileStorageService;
+        //this.fileStorageService = fileStorageService;
     }
 
     // Prendi tutti i giornali (Archivio)
@@ -32,18 +31,22 @@ public class EditionController {
     // Carica un nuovo giornale
     @PostMapping
     public Mono<Edition> createEdition(
-            @RequestParam("title") String title,
-            @RequestParam("file") MultipartFile file) {
+            //@RequestParam("title") String title,
+            //@RequestParam("file") MultipartFile file
+            @RequestBody Edition edition) {
 
         try {
             // 1. Carica il file su Storage e prendi l'URL
-            String pdfUrl = fileStorageService.uploadFile(file);
+            //String pdfUrl = fileStorageService.uploadFile(file);
 
             // 2. Crea l'oggetto da salvare nel Database
-            Edition newEdition = new Edition(title, pdfUrl, null, Instant.now());
+            //Edition newEdition = new Edition(title, pdfUrl, null, Instant.now());
 
             // 3. Salva su Firestore
-            return editionRepository.save(newEdition);
+            //return editionRepository.save(newEdition);
+
+            edition.setUploadDate(Instant.now());
+            return editionRepository.save(edition);
 
         } catch (Exception e) {
             return Mono.error(e);

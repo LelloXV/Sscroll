@@ -2,6 +2,7 @@ plugins {
     java
     id("org.springframework.boot") version "3.5.10"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.graalvm.buildtools.native") version "0.11.0"
 }
 
 group = "com.project"
@@ -35,5 +36,11 @@ dependencies {
     implementation("com.google.cloud:spring-cloud-gcp-starter-data-firestore")
     implementation("com.google.cloud:spring-cloud-gcp-starter-storage")
     implementation("com.google.cloud:google-cloud-firestore")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+
 }
 
+tasks.getByName<Jar>("jar") {
+    enabled = false
+}

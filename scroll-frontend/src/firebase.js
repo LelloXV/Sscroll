@@ -1,6 +1,8 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC7cDPFjhqJ3vroXw3mvbH8VmcNV8xTVDc",
@@ -11,7 +13,7 @@ const firebaseConfig = {
     appId: "1:352219726895:web:2d716615d37a9a3169f2da"
 };
 
-// Inizializza Firebase
 const app = initializeApp(firebaseConfig);
-// Esporta l'istanza di Auth già pronta per essere usata ovunque
 export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);

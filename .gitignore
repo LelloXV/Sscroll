@@ -1,7 +1,15 @@
-# --- SICUREZZA ---
+# --- SICUREZZA & CHIAVI ---
 firebase-key.json
+*.pem
+*.p12
 
-# --- BACKEND (Java/Gradle) ---
+# --- AMBIENTE E VARIABILI ---
+# Ignora tutti i file .env ovunque si trovino
+**/.env
+**/.env.*
+**/.local
+
+# --- BACKEND (Java/Spring/Gradle) ---
 .gradle/
 build/
 out/
@@ -9,15 +17,19 @@ bin/
 target/
 *.class
 *.jar
+*.war
+.apt_generated
 
-# --- FRONTEND (Node/Vite) ---
-scroll-frontend/node_modules/
-scroll-frontend/dist/
-scroll-frontend/dist-ssr/
-scroll-frontend/.local
+# --- FRONTEND E NODE GLOBALE ---
+**/node_modules/
+**/dist/
+**/dist-ssr/
+**/.firebase/
+coverage/
 
-# --- IDE & SISTEMA ---
+# --- IDE & SISTEMA OPERATIVO ---
 .idea/
 .vscode/
-.DS_Store
 *.iml
+.DS_Store
+Thumbs.db
