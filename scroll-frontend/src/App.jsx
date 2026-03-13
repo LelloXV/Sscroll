@@ -79,6 +79,25 @@ function App() {
         return new Date(lastUpload.getTime() + 7 * 24 * 60 * 60 * 1000);
     };
 
+    const handleHomeClick = () => {
+        // 1. Sblocca forzatamente lo scroll (nel caso un articolo lo avesse bloccato)
+        document.body.style.overflow = 'auto';
+
+        // 2. Seleziona l'ultima edizione disponibile
+        if (editions.length > 0) {
+            setSelectedEdition(editions[0]);
+        }
+
+        // 3. Se un articolo è attualmente aperto (tramite pushState in ScrollReader),
+        // simuliamo il tasto "indietro" per chiuderlo
+        if (window.history.state && window.history.state.articleOpen) {
+            window.history.back();
+        }
+
+        // 4. Scorre fluidamente in cima alla pagina
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     if (loading) {
         return (
             <div className="bg-midnight min-h-screen flex flex-col items-center justify-center font-mono text-white">
@@ -151,6 +170,7 @@ function App() {
                         onUploadClick={() => setIsModalOpen(true)}
                         onCollaborateClick={() => setIsModalOpen(true)}
                         currentUser={currentUser}
+                        onHomeClick={handleHomeClick}
                     //showUpload={isAdmin}
                 />
 

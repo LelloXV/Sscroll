@@ -209,7 +209,6 @@ export default function AdminUpload() {
                                     </div>
                                     <InputField label="Abstract" value={article.extract} onChange={(e) => handleArticleChange(index, 'extract', e.target.value)} placeholder="L'estetica del brutto non è una provocazione..." isTextarea={true} />
 
-                                    {/* NUOVO EDITOR RICH TEXT */}
                                     <div className="flex flex-col gap-1 w-full mt-4">
                                         <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Contenuto Completo</label>
                                         <div className="bg-white text-black">

@@ -22,6 +22,9 @@ export default function AuthForm({ onSuccess }) {
             if (isLogin){
                 await signInWithEmailAndPassword(auth, email, password);
             } else {
+
+                //DA GESTIRE SUCCESSIVAMENTE IL SENDEMAILVERIFICATION
+
                 //const userCredential =
                 await createUserWithEmailAndPassword(auth, email, password);
                 //await sendEmailVerification(userCredential.user);
