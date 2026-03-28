@@ -1,6 +1,6 @@
-# SCROLL.
+# SSCROLL.
 
-Scroll è una web-zine settimanale pensata per chi vuole leggere contenuti approfonditi. L'estetica è minimalista per rimettere al centro il testo e le immagini.
+Sscroll è una web-zine settimanale pensata per chi vuole leggere contenuti approfonditi. L'estetica è minimalista per rimettere al centro il testo e le immagini.
 
 ---
 
