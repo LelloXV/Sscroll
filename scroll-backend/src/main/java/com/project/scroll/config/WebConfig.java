@@ -10,9 +10,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("https://scroll-29988.web.app", "http://localhost:5173") //frontend
+                .allowedOrigins("https://scroll-29988.web.app", "https://sscroll.it", "https://www.sscroll.it")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
+                .allowedHeaders("Content-Type", "Authorization", "X-Requested-With")
+                .allowedHeaders("Content-Type", "Authorization", "X-Requested-With")
+                .exposedHeaders("Authorization")
                 .allowCredentials(true)
                 .maxAge(3600);
     }

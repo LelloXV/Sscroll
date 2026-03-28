@@ -14,6 +14,8 @@ public class Edition {
     private String issueNumber; // es. "43"
     private String date; // es. "24 FEB 2026"
     private Instant uploadDate;
+    private String audioUrl;
+    private String audioTitle;
 
     // Ecco la magia NoSQL: una lista di oggetti complessi
     private List<Article> articles;
@@ -38,4 +40,10 @@ public class Edition {
 
     public List<Article> getArticles() { return articles; }
     public void setArticles(List<Article> articles) { this.articles = articles; }
+
+    public String getAudioUrl() { return audioUrl; }
+    public void setAudioUrl(String audioUrl) { this.audioUrl = audioUrl; }
+
+    public String getAudioTitle() { return audioTitle; }
+    public void setAudioTitle(String audioTitle) { this.audioTitle = audioTitle; }
 }

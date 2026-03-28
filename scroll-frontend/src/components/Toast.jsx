@@ -29,7 +29,7 @@ export default function Toast({ message, type = 'info', isVisible, onClose }) {
                     transition={{ type: "spring", damping: 20, stiffness: 120 }}
                     // CAMBIO POSIZIONE: top-10 invece di bottom-10
                     // CAMBIO GRANDEZZA: px-10 py-6, min-w-[450px], text-sm
-                    className={`fixed top-10 left-1/2 z-[300] flex items-center gap-5 px-10 py-6 border-2 ${current.color} ${current.bg} backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] min-w-[450px] rounded-2xl`}
+                    className={`fixed top-4 left-1/2 z-[300] flex items-center gap-3 px-5 py-4 md:px-10 md:py-6 border-2 ${current.color} ${current.bg} backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-[calc(100vw-2rem)] md:w-auto md:min-w-[450px] max-w-[500px] rounded-2xl`}
                 >
                     <div className={type === 'success' ? 'text-[#FF3355]' : ''}>
                         {current.icon}

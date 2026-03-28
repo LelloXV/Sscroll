@@ -36,15 +36,16 @@ public class EditionController {
             @RequestBody Edition edition) {
 
         try {
-            // 1. Carica il file su Storage e prendi l'URL
-            //String pdfUrl = fileStorageService.uploadFile(file);
-
-            // 2. Crea l'oggetto da salvare nel Database
-            //Edition newEdition = new Edition(title, pdfUrl, null, Instant.now());
-
-            // 3. Salva su Firestore
-            //return editionRepository.save(newEdition);
-
+            if (edition.getTitle() == null || edition.getTitle().isBlank()) {
+                return Mono.error(new IllegalArgumentException("Titolo mancante"));
+            }
+            if (edition.getArticles() == null || edition.getArticles().isEmpty()) {
+                return Mono.error(new IllegalArgumentException("Articoli mancanti"));
+            }
+            // Limita numero articoli per evitare payload enormi
+            if (edition.getArticles().size() > 20) {
+                return Mono.error(new IllegalArgumentException("Troppi articoli"));
+            }
             edition.setUploadDate(Instant.now());
             return editionRepository.save(edition);
 

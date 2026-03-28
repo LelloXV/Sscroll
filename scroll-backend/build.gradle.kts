@@ -39,6 +39,8 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("com.google.cloud:google-cloud-firestore")
+
+    implementation("org.springframework.boot:spring-boot-starter-mail")
 }
 
 tasks.getByName<Jar>("jar") {

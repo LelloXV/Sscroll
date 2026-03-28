@@ -1,19 +1,22 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, browserLocalPersistence, setPersistence } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyC7cDPFjhqJ3vroXw3mvbH8VmcNV8xTVDc",
-    authDomain: "scroll-29988.firebaseapp.com",
-    projectId: "scroll-29988",
-    storageBucket: "scroll-29988.firebasestorage.app",
-    messagingSenderId: "352219726895",
-    appId: "1:352219726895:web:2d716615d37a9a3169f2da"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence).catch((err) => {
+    console.error("Errore impostazione persistenza:", err);
+});
 export const db = getFirestore(app);
 export const storage = getStorage(app);

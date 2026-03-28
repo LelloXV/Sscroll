@@ -9,10 +9,10 @@ export default function Countdown({ targetDate, isPreLaunch }) {
 
         if (difference > 0) {
             timeLeft = {
-                giorni: Math.floor(difference / (1000 * 60 * 60 * 24)),
-                ore: Math.floor((difference / (1000 * 60 * 60)) % 24),
-                minuti: Math.floor((difference / 1000 / 60) % 60),
-                secondi: Math.floor((difference / 1000) % 60),
+                D: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                H: Math.floor((difference / (1000 * 60 * 60)) % 24),
+                M: Math.floor((difference / 1000 / 60) % 60),
+                S: Math.floor((difference / 1000) % 60),
             };
         }
         return timeLeft;
@@ -26,19 +26,19 @@ export default function Countdown({ targetDate, isPreLaunch }) {
     }, [targetDate]);
 
     const timerComponents = Object.keys(timeLeft).map((interval) => {
-        if (!timeLeft[interval] && interval !== 'secondi') return null;
+        if (!timeLeft[interval] && interval !== 'S') return null;
         return (
             <div key={interval} className="flex flex-col items-center mx-2 md:mx-4">
-        <span className={`font-black font-mono ${isPreLaunch ? 'text-5xl md:text-8xl' : 'text-3xl md:text-5xl'}`}>
+        <span className={`font-black font-serif ${isPreLaunch ? 'text-5xl md:text-8xl' : 'text-3xl md:text-5xl'}`}>
           {timeLeft[interval] < 10 ? `0${timeLeft[interval]}` : timeLeft[interval]}
         </span>
-                <span className="text-xs uppercase font-bold tracking-widest">{interval}</span>
+                <span className="text-xs uppercase font-serif tracking-widest mt-2">{interval}</span>
             </div>
         );
     });
 
     return (
-        <div className={`flex items-center justify-center font-mono ${isPreLaunch ? 'text-white' : 'text-neon-lime'}`}>
+        <div className={`flex items-center justify-center font-serif ${isPreLaunch ? 'text-white' : 'text-neon-lime'}`}>
             {timerComponents.length ? timerComponents : <span className="text-2xl font-black italic">EDIZIONE IN ARRIVO...</span>}
         </div>
     );

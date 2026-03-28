@@ -1,7 +1,7 @@
 package com.project.scroll.model;
 
 public class Article {
-    private String type; // 'cover' o 'article'
+    private String type;
     private String category;
     private String title;
     private String subtitle;

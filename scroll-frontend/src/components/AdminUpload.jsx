@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { Plus, Trash2, Send, Image as ImageIcon } from 'lucide-react';
+import { Plus, Trash2, Send, Image as ImageIcon, Music } from 'lucide-react';
 import ReactQuill from 'react-quill-new'; // Importa l'editor
 import 'react-quill-new/dist/quill.snow.css'; // Importa lo stile dell'editor
 import {useToast} from "../context/ToastContext.jsx";
+import AudioUpload from "./AudioUpload.jsx";
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { storage, auth } from '../firebase.js'
 
@@ -53,6 +54,8 @@ export default function AdminUpload() {
         issueNumber: '',
         date: ''
     });
+    const [audioFile, setAudioFile] = useState(null);
+    const [audioTitle, setAudioTitle] = useState('');
 
     const [articles, setArticles] = useState([
         { type: 'cover', title: '', subtitle: '', backgroundImage: '', tempFile: null }
@@ -126,9 +129,24 @@ export default function AdminUpload() {
             // Genera il token JWT fresco
             const token = await user.getIdToken();
 
+            let audioUrl = null;
+            if (audioFile) {
+                try{
+                    const audioRef = ref(storage, `audio/${Date.now()}_${audioFile.name}`);
+                    const audioSnapshot = await uploadBytes(audioRef, audioFile);
+                    audioUrl = await getDownloadURL(audioSnapshot.ref);
+                }catch (err) {
+                    console.error("Errore upload audio:", err);
+                    showToast("Errore upload audio, edizione pubblicata senza traccia", "warning");
+                    // Continua comunque a pubblicare l'edizione senza audio
+                }
+
+            }
+
             const payload = {
                 ...edition,
-                articles: updatedArticles
+                articles: updatedArticles,
+                ...(audioUrl && { audioUrl, audioTitle: audioTitle || audioFile.name })
             };
 
             const response = await fetch(`${API_BASE_URL}/api/editions`, {
@@ -173,7 +191,7 @@ export default function AdminUpload() {
                 <section className="flex flex-col gap-6">
                     <div className="flex items-center justify-between border-b-2 border-white/20 pb-2">
                         <h3 className="text-[#FF3355] font-bold uppercase tracking-widest text-xs">2. Contenuti (Cover + Articoli)</h3>
-                        <span className="text-xs text-slate-400">Totale: {articles.length}</span>
+                        <span className="text-xs text-slate-400">Totale: {articles.length-1}</span>
                     </div>
 
                     {articles.map((article, index) => (
@@ -249,6 +267,34 @@ export default function AdminUpload() {
                     >
                         <Plus size={18} /> Aggiungi Articolo
                     </button>
+                </section>
+
+                <section className="flex flex-col gap-4">
+                    <h3 className="text-[#FF3355] font-bold uppercase tracking-widest text-xs border-b-2 border-white/20 pb-2">
+                        3. Traccia Audio
+                    </h3>
+                    <div className="flex flex-col gap-3 bg-white/5 border border-white/10 p-6">
+                        <div className="flex items-center gap-2 mb-1">
+                            <Music size={13} className="text-[#FF3355]" />
+                            <span className="text-[10px] text-slate-400 uppercase tracking-widest">Audio di questa edizione</span>
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="Titolo traccia"
+                            value={audioTitle}
+                            onChange={(e) => setAudioTitle(e.target.value)}
+                            className="p-2.5 bg-zinc-900 border border-white/20 focus:border-[#FF3355] text-white text-xs outline-none transition-colors"
+                        />
+                        <input
+                            type="file"
+                            accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/aac"
+                            onChange={(e) => setAudioFile(e.target.files[0])}
+                            className="text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:border-0 file:text-[10px] file:font-bold file:uppercase file:bg-white file:text-black hover:file:bg-[#FF3355] hover:file:text-white transition-all cursor-pointer"
+                        />
+                        {audioFile && (
+                            <span className="text-[10px] text-green-400 uppercase font-bold">✓ {audioFile.name}</span>
+                        )}
+                    </div>
                 </section>
 
                 <button
